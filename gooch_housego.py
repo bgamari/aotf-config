@@ -5,42 +5,42 @@ class FreqSynth(object):
         def __init__(self, device='/dev/ttyUSB0'):
                 self.device = serial.Serial(device)
 
+        def _write(self, cmd):
+                self.device.write(cmd + '\r')
+
 	def select_channel(self, channel):
-                self.device.write('ch%d\n' % channel)
+                self._write('ch%d' % channel)
 
         def set_frequency(self, freq):
                 """ Set the output frequency in MHz """
                 if not 40 < freq < 150:
                         raise ValueError("Frequency out of range")
-                self.device.write('fr %3.3f\n' % freq)
+                self._write('fr %3.3f' % freq)
 
         def set_phase(self, phase):
                 if not 0 < phase < 16383:
                         raise ValueError("Phase out of range")
-                self.device.write('ph %5d\n' % phase)
+                self._write('ph %5d' % phase)
 
         def set_amplitude(self, amp):
                 if not 0 < amp < 1023:
                         raise ValueError("Amplitude out of range")
-                self.device.write('am %4d\n' % amp)
+                self._write('am %4d' % amp)
 
         def set_mode(self, mode):
                 if mode == 'on':
-                        self.device.write('on\n')
+                        self._write('on')
                 elif mode == 'off':
-                        self.device.write('off\n')
+                        self._write('off')
                 elif mode == 'mod':
-                        self.device.write('mod\n')
+                        self._write('mod')
                 else:
                         raise ValueError("Invalid mode")
         
         def get_status(self):
-                self.device.write('st\n')
+                self._write('st')
                 a = self.device.readline().split()
-
-                if a[0] != 'Ch':
-                        print l
-                        raise Exception('Bad status format')
+                if a[0] != 'Ch': raise Exception('Bad status format')
 
                 chan = int(a[1])
                 mode = None
@@ -52,19 +52,16 @@ class FreqSynth(object):
                         mode = 'mod'
 
                 a = self.device.readline().split()
-                if a[0] != 'Freq':
-                        raise Exception()
+                if a[0] != "\x00Freq": raise Exception()
                 freq = float(a[1])
 
                 a = self.device.readline().split()
-                if a[0] != 'Amp':
-                        raise Exception
+                if a[0] != "\x00Amp": raise Exception
                 amp = int(a[1])
 
                 a = self.device.readline().split()
-                if a[0] != 'Phase':
-                        raise Exception()
+                if a[0] != 'Phase': raise Exception()
                 phase = int(a[1])
 
-                return chan, mod, freq, amp, phase
+                return chan, mode, freq, amp, phase
 
