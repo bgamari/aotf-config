@@ -1,3 +1,5 @@
+#!/usr/bin/python
+
 from gooch_housego import FreqSynth
 
 f = FreqSynth(dev)
