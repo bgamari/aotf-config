@@ -33,4 +33,38 @@ class FreqSynth(object):
                         self.device.write('mod\n')
                 else:
                         raise ValueError("Invalid mode")
+        
+        def get_status(self):
+                self.device.write('st\n')
+                a = self.device.readline().split()
+
+                if a[0] != 'Ch':
+                        print l
+                        raise Exception('Bad status format')
+
+                chan = int(a[1])
+                mode = None
+                if a[2] == '(off)':
+                        mode = 'off'
+                elif a[2] == '(on)':
+                        mode = 'on'
+                elif a[2] == '(mod)':
+                        mode = 'mod'
+
+                a = self.device.readline().split()
+                if a[0] != 'Freq':
+                        raise Exception()
+                freq = float(a[1])
+
+                a = self.device.readline().split()
+                if a[0] != 'Amp':
+                        raise Exception
+                amp = int(a[1])
+
+                a = self.device.readline().split()
+                if a[0] != 'Phase':
+                        raise Exception()
+                phase = int(a[1])
+
+                return chan, mod, freq, amp, phase
 
