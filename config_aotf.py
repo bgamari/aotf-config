@@ -6,6 +6,6 @@ f = FreqSynth('/dev/ttyUSB0')
 
 for ch in [4,7]:
         f.select_channel(ch)
-        f.set_mode('mod')
+        f.set_mode('on')
         print 'Channel %d: ' % ch, f.get_status()
 
