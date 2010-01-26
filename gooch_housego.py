@@ -3,7 +3,9 @@ from exceptions import ValueError
 
 class FreqSynth(object):
         def __init__(self, device='/dev/ttyUSB0'):
-                self.device = serial.Serial(device)
+                self.device = serial.Serial(device, timeout=1)
+		# Ensure we're talking to the right device
+		self.get_status()
 
         def _write(self, cmd):
                 self.device.write(cmd + '\r')
