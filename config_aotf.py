@@ -16,7 +16,7 @@ for d in glob('/dev/ttyUSB*'):
 if not f:
 	raise Exception("Failed to find device")
 
-channels = range(1,8)
+channels = range(1,8+1)
 on_channels = map(int, sys.argv[1:])
 for ch in channels:
         f.select_channel(ch)
