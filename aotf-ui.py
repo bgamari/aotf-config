@@ -5,7 +5,7 @@ import gtk
 import os
 import logging
 
-resource_prefix='.'
+resource_prefix='/usr/share/aotf-config'
 
 logging.basicConfig(level=logging.DEBUG)
 
