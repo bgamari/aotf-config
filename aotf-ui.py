@@ -1,3 +1,5 @@
+#!/usr/bin/python
+
 import gooch_housego
 import gtk
 import os
