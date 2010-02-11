@@ -15,17 +15,17 @@ class FreqSynth(object):
 
         def set_frequency(self, freq):
                 """ Set the output frequency in MHz """
-                if not 40 < freq < 150:
+                if 40 > freq or freq > 150:
                         raise ValueError("Frequency out of range")
                 self._write('fr %3.3f' % freq)
 
         def set_phase(self, phase):
-                if not 0 < phase < 16383:
+                if 0 > phase or phase > 16383:
                         raise ValueError("Phase out of range")
                 self._write('ph %5d' % phase)
 
         def set_amplitude(self, amp):
-                if not 0 < amp < 1023:
+                if 0 > amp or amp > 1023:
                         raise ValueError("Amplitude out of range")
                 self._write('am %4d' % amp)
 
