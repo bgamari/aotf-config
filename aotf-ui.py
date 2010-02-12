@@ -26,7 +26,7 @@ class AotfChannel(object):
                 self.mode = mode
                 self.amplitude = amp
         
-        def mode_combo_changed_cb(self, model):
+        def mode_combo_changed_cb(self, combobox):
                 self.device.select_channel(self.n)
                 self.device.set_mode(self.mode)
                 logging.debug("Setting mode to %s" % self.mode)
