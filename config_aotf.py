@@ -1,21 +1,9 @@
 #!/usr/bin/python
 
 import sys
-from glob import glob
 from gooch_housego import FreqSynth
 
-f = None
-for d in glob('/dev/ttyUSB*'):
-	try:
-		f = FreqSynth(d)
-	except:
-		pass
-	else:
-		break
-
-if not f:
-	raise Exception("Failed to find device")
-
+f = FreqSynth.probe()
 channels = range(1,8+1)
 on_channels = map(int, sys.argv[1:])
 for ch in channels:

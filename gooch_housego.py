@@ -1,7 +1,24 @@
-import serial
+import logging
 from exceptions import ValueError
+from glob import glob
+import serial
 
 class FreqSynth(object):
+	@classmethod
+	def probe(cls):
+		f = None
+		for d in glob('/dev/ttyUSB*'):
+			try:
+				f = FreqSynth(d)
+				logging.debug("Found frequency synthesizer on %s" % d)
+				return f
+			except:
+				pass
+			else:
+				break
+		if not f:
+			raise Exception("Failed to find device")
+
         def __init__(self, device='/dev/ttyUSB0'):
                 self.device = serial.Serial(device, timeout=1)
 		# Ensure we're talking to the right device

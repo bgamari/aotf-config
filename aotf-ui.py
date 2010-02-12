@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-import gooch_housego
+from gooch_housego import FreqSynth
 import gtk
 import os
 import logging
@@ -64,8 +64,8 @@ class AotfChannel(object):
                 logging.debug("Setting amplitude to %d." % self.amplitude)
 
 class AotfConfig(object):
-        def __init__(self, device='/dev/ttyUSB0'):
-                self.device = gooch_housego.FreqSynth(device)
+        def __init__(self, device):
+                self.device = device
                 
                 self.builder = gtk.Builder()
                 self.builder.add_from_file(os.path.join(resource_prefix, 'aotf-ui.glade'))
@@ -83,7 +83,7 @@ class AotfConfig(object):
 
                 self.win.show_all()
                 
-dev = '/dev/ttyUSB1'
+dev = FreqSynth.probe()
 a = AotfConfig(dev)
 gtk.main()
 
