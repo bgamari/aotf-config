@@ -75,7 +75,7 @@ class AotfConfig(object):
                 
                 notebook = self.builder.get_object('notebook')
                 self.channels = []
-                for ch in range(8):
+                for ch in range(1,9):
                         chan = AotfChannel(ch, self.device)
                         chan.update()
                         self.channels.append(chan)
