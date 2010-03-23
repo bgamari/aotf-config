@@ -2,10 +2,10 @@
 
 from gooch_housego import FreqSynth
 import gtk
-import os
+import sys, os
 import logging
 
-resource_prefix='/usr/share/aotf-config'
+resource_prefix=os.path.join(sys.prefix,'share/aotf-config')
 
 logging.basicConfig(level=logging.DEBUG)
 
