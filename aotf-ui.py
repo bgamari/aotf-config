@@ -5,7 +5,7 @@ import gtk
 import sys, os
 import logging
 
-resource_prefix=os.path.join(sys.prefix,'share/aotf-config')
+resource_prefix=os.path.join(sys.prefix, 'share', 'aotf-config')
 
 logging.basicConfig(level=logging.DEBUG)
 
