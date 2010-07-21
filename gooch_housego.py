@@ -17,7 +17,7 @@ class FreqSynth(object):
 			else:
 				break
 		if not f:
-			raise Exception("Failed to find device")
+			raise RuntimeError("Failed to find device")
 
         def __init__(self, device='/dev/ttyUSB0'):
                 self.device = serial.Serial(device, timeout=1)
@@ -59,7 +59,7 @@ class FreqSynth(object):
         def get_status(self):
                 self._write('st')
                 a = self.device.readline().split()
-                if len(a) < 1 or a[0] != 'Ch': raise Exception('Bad status format')
+                if len(a) < 1 or a[0] != 'Ch': raise RuntimeError('Bad status format')
 
                 chan = int(a[1])
                 mode = None
@@ -71,15 +71,15 @@ class FreqSynth(object):
                         mode = 'mod'
 
                 a = self.device.readline().split()
-                if a[0] != "\x00Freq": raise Exception()
+                if a[0] != "\x00Freq": raise RuntimeError('Bad status format')
                 freq = float(a[1])
 
                 a = self.device.readline().split()
-                if a[0] != "\x00Amp": raise Exception
+                if a[0] != "\x00Amp": raise RuntimeError('Bad status format')
                 amp = int(a[1])
 
                 a = self.device.readline().split()
-                if a[0] != 'Phase': raise Exception()
+                if a[0] != 'Phase': raise RuntimeError('Bad status format')
                 phase = int(a[1])
 
                 return chan, mode, freq, amp, phase
