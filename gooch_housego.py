@@ -59,7 +59,7 @@ class FreqSynth(object):
         def get_status(self):
                 self._write('st')
                 a = self.device.readline().split()
-                if a[0] != 'Ch': raise Exception('Bad status format')
+                if len(a) < 1 or a[0] != 'Ch': raise Exception('Bad status format')
 
                 chan = int(a[1])
                 mode = None
