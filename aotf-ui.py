@@ -77,7 +77,7 @@ class AotfChannel(object):
         def frequency_value_changed_cb(self, adj):
                 self.device.select_channel(self.n)
                 self.device.set_frequency(self.frequency)
-                logging.debug("Setting frequency to %d." % self.frequency)
+                logging.debug("Setting frequency to %f." % self.frequency)
 
 class AotfConfig(object):
         def __init__(self, device):
