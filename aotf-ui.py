@@ -5,7 +5,7 @@ import gtk
 import sys, os
 import logging
 
-resource_prefix=os.path.join(sys.prefix, 'share', 'aotf-config')
+resource_prefix=os.path.join(sys.prefix, 'local', 'share', 'aotf-config')
 
 logging.basicConfig(level=logging.DEBUG)
 
@@ -25,6 +25,7 @@ class AotfChannel(object):
                 chan, mode, freq, amp, phase = self.device.get_status()
                 self.mode = mode
                 self.amplitude = amp
+                self.frequency = freq
         
         def mode_combo_changed_cb(self, combobox):
                 self.device.select_channel(self.n)
@@ -57,11 +58,26 @@ class AotfChannel(object):
         def amplitude(self, value):
                 adj = self.builder.get_object('amplitude')
                 adj.set_value(value)
+
+        @property
+        def frequency(self):
+                adj = self.builder.get_object('frequency')
+                return adj.get_value()
+
+        @frequency.setter
+        def frequency(self, value):
+                adj = self.builder.get_object('frequency')
+                adj.set_value(value)
                 
         def amplitude_value_changed_cb(self, adj):
                 self.device.select_channel(self.n)
                 self.device.set_amplitude(self.amplitude)
                 logging.debug("Setting amplitude to %d." % self.amplitude)
+
+        def frequency_value_changed_cb(self, adj):
+                self.device.select_channel(self.n)
+                self.device.set_frequency(self.frequency)
+                logging.debug("Setting frequency to %d." % self.frequency)
 
 class AotfConfig(object):
         def __init__(self, device):
