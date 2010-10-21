@@ -98,8 +98,12 @@ class AotfConfig(object):
                         notebook.append_page(chan.widget, chan.label)
 
                 self.win.show_all()
-                
-dev = FreqSynth.probe()
+
+dev = None
+if len(sys.argv) == 2:
+        dev = FreqSynth(sys.argv[1])
+else:
+        dev = FreqSynth.probe()
 a = AotfConfig(dev)
 gtk.main()
 
