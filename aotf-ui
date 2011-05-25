@@ -22,10 +22,10 @@ class AotfChannel(object):
 
         def update(self):
                 self.device.select_channel(self.n)
-                chan, mode, freq, amp, phase = self.device.get_status()
-                self.mode = mode
-                self.amplitude = amp
-                self.frequency = freq
+                status = self.device.get_status()
+                self.mode = status.mode
+                self.amplitude = status.amp
+                self.frequency = status.freq
         
         def mode_combo_changed_cb(self, combobox):
                 self.device.select_channel(self.n)

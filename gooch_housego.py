@@ -2,6 +2,7 @@ import logging
 from exceptions import ValueError
 from glob import glob
 import serial
+from collections import namedtuple
 
 class FreqSynth(object):
 	@classmethod
@@ -56,6 +57,7 @@ class FreqSynth(object):
                 else:
                         raise ValueError("Invalid mode")
         
+        Status = namedtuple('Status', 'chan mode freq amp phase')
         def get_status(self):
                 self._write('st')
                 a = self.device.readline().split()
@@ -82,5 +84,5 @@ class FreqSynth(object):
                 if a[0] != 'Phase': raise RuntimeError('Bad status format')
                 phase = int(a[1])
 
-                return chan, mode, freq, amp, phase
+                return Status(chan, mode, freq, amp, phase)
 
