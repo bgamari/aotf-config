@@ -4,7 +4,7 @@ from usbtmc import usbtmc
 
 """
 Scan the AOTF drive frequency of the given channel through the given band,
-recording the power from a Thorlabs DM100 power meter at every frequency
+recording the power from a Thorlabs PM100 power meter at every frequency
 """
 
 presets = {           # (chan, min_f, max_f)
@@ -38,7 +38,7 @@ if __name__ == '__main__':
 
         parser = argparse.ArgumentParser()
         parser.add_argument('-p', '--plot', action='store_true', help='plot power vs. frequency')
-        parser.add_argument('-o', '--output', type=argparse.FileType('w'), help='output to file')
+        parser.add_argument('-o', '--output', type=argparse.FileType('w'), help='output raw data to file')
         parser.add_argument('-s', '--step', type=float, metavar='FREQ', help='scan step size in MHz', default=0.010)
         parser.add_argument('-P', '--preset', metavar='NAME', choices=presets.keys(),
                         help='select a preset scan configuration (options: %s)' % ', '.join(presets.keys()))
@@ -88,7 +88,7 @@ if __name__ == '__main__':
         data = np.array(data, dtype=[('f', 'f8'), ('p', 'f8')])
 
         max_i = np.argmax(abs(data['p']))
-        print 'Maximum at %3.3f MHz' % data['p'][max_i]
+        print 'Maximum at %3.3f MHz' % data['f'][max_i]
         synth.set_frequency(data[max_i]['f'])
 
         if args.output is not None:
