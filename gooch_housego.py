@@ -10,8 +10,9 @@ class FreqSynth(object):
                 f = None
                 for d in glob('/dev/ttyUSB*'):
                         try:
+                                logging.debug("Looking for frequency synthesizer on %s" % d)
                                 f = FreqSynth(d)
-                                logging.debug("Found frequency synthesizer on %s" % d)
+                                logging.info("Found frequency synthesizer on %s" % d)
                                 return f
                         except:
                                 pass
