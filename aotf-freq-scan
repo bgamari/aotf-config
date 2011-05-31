@@ -7,9 +7,9 @@ Scan the AOTF drive frequency of the given channel through the given band,
 recording the power from a Thorlabs PM100 power meter at every frequency
 """
 
-presets = {           # (chan, min_f, max_f)
-        'green':        (1, 68.5, 70.5),
-        'red':          (2, 51.5, 55.5),
+presets = {           # (chan, min_f, max_f, wavelength)
+        'green':        (1, 68.5, 70.5, 488),
+        'red':          (2, 51.5, 55.5, 514),
 }
 
 def plot(data):
@@ -45,6 +45,7 @@ if __name__ == '__main__':
         parser.add_argument('-l', '--lower', type=float, metavar='FREQ', help='beginning of scan in MHz')
         parser.add_argument('-b', '--upper', type=float, metavar='FREQ', help='end of scan in MHz')
         parser.add_argument('-c', '--channel', type=int, metavar='N', help='AOTF driver channel to scan')
+        parser.add_argument('-W', '--wavelength', type=float, metavar='N', help='Wavelength of line to measure (nm)')
         parser.add_argument('-w', '--wait', type=float, metavar='TIME', help='duration to wait between data points', default=1e-3)
         parser.add_argument('-S', '--samples', type=int, metavar='N', help='number of samples to take for each frequency', default=5)
         args = parser.parse_args()
@@ -52,11 +53,12 @@ if __name__ == '__main__':
         channel = args.channel
         lower = args.lower
         upper = args.upper
+        wavelength = args.wavelength
 
         if args.preset is None:
                 pass
         elif args.preset in presets:
-                channel,lower,upper = presets[args.preset]
+                channel,lower,upper,wavelength = presets[args.preset]
         else:
                 parser.error("Unknown preset configuration '%s'" % args.preset)
 
@@ -65,6 +67,10 @@ if __name__ == '__main__':
 
         test = usbtmc('/dev/usbtmc0')
         test.write('CONF:POW')
+        
+        if wavelength is not None:
+                test.write('SENSE:CORR:WAVELENGTH MIN %f' % (wavelength-5))
+                test.write('SENSE:CORR:WAVELENGTH MAX %f' % (wavelength+5))
 
         synth = FreqSynth.probe()
         for ch in range(8):
