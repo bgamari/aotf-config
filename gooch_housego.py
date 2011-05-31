@@ -21,7 +21,7 @@ class FreqSynth(object):
                         raise RuntimeError("Failed to find device")
 
         def __init__(self, device='/dev/ttyUSB0'):
-                self.device = serial.Serial(device, timeout=1)
+                self.device = serial.Serial(device, baudrate=9600, timeout=1)
                 # Help auto-baudrate detection
                 self.device.write('\n\n\n')
                 # Ensure we're talking to the right device
