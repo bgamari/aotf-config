@@ -16,8 +16,10 @@ class FreqSynth(object):
                                 f = FreqSynth(d)
                                 logging.info("Found frequency synthesizer on %s" % d)
                                 return f
-                        except:
+                        except IOError:
                                 pass
+                        except Exception as e:
+                                logging.error('Unexpected exception: %s' % e)
                         else:
                                 break
                 if not f:
@@ -64,8 +66,10 @@ class FreqSynth(object):
 
         def get_status(self):
                 self._write('st')
-                a = self.device.readline().split()
-                if len(a) < 1 or a[0] != 'Ch': raise RuntimeError('Bad status format')
+                a = self.device.readline()
+                if len(a) == 0: raise IOError('Null status')
+                a = a.split()
+                if a[0] != 'Ch': raise IOError('Bad status format')
 
                 chan = int(a[1])
                 mode = None
@@ -77,15 +81,15 @@ class FreqSynth(object):
                         mode = 'mod'
 
                 a = self.device.readline().split()
-                if a[0] != "\x00Freq": raise RuntimeError('Bad status format')
+                if a[0] != "\x00Freq": raise IOError('Bad status format')
                 freq = float(a[1])
 
                 a = self.device.readline().split()
-                if a[0] != "\x00Amp": raise RuntimeError('Bad status format')
+                if a[0] != "\x00Amp": raise IOError('Bad status format')
                 amp = int(a[1])
 
                 a = self.device.readline().split()
-                if a[0] != 'Phase': raise RuntimeError('Bad status format')
+                if a[0] != 'Phase': raise IOError('Bad status format')
                 phase = int(a[1])
 
                 return Status(chan, mode, freq, amp, phase)
