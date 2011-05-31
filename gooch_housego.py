@@ -5,30 +5,32 @@ import serial
 from collections import namedtuple
 
 class FreqSynth(object):
-	@classmethod
-	def probe(cls):
-		f = None
-		for d in glob('/dev/ttyUSB*'):
-			try:
-				f = FreqSynth(d)
-				logging.debug("Found frequency synthesizer on %s" % d)
-				return f
-			except:
-				pass
-			else:
-				break
-		if not f:
-			raise RuntimeError("Failed to find device")
+        @classmethod
+        def probe(cls):
+                f = None
+                for d in glob('/dev/ttyUSB*'):
+                        try:
+                                f = FreqSynth(d)
+                                logging.debug("Found frequency synthesizer on %s" % d)
+                                return f
+                        except:
+                                pass
+                        else:
+                                break
+                if not f:
+                        raise RuntimeError("Failed to find device")
 
         def __init__(self, device='/dev/ttyUSB0'):
                 self.device = serial.Serial(device, timeout=1)
-		# Ensure we're talking to the right device
-		self.get_status()
+                # Help auto-baudrate detection
+                self.device.write('\n\n\n')
+                # Ensure we're talking to the right device
+                self.get_status()
 
         def _write(self, cmd):
                 self.device.write(cmd + '\r')
 
-	def select_channel(self, channel):
+        def select_channel(self, channel):
                 self._write('ch%d' % channel)
 
         def set_frequency(self, freq):
@@ -56,7 +58,7 @@ class FreqSynth(object):
                         self._write('mod')
                 else:
                         raise ValueError("Invalid mode")
-        
+
         Status = namedtuple('Status', 'chan mode freq amp phase')
         def get_status(self):
                 self._write('st')
