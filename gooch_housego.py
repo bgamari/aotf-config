@@ -4,6 +4,8 @@ from glob import glob
 import serial
 from collections import namedtuple
 
+Status = namedtuple('Status', 'chan mode freq amp phase')
+
 class FreqSynth(object):
         @classmethod
         def probe(cls):
@@ -60,7 +62,6 @@ class FreqSynth(object):
                 else:
                         raise ValueError("Invalid mode")
 
-        Status = namedtuple('Status', 'chan mode freq amp phase')
         def get_status(self):
                 self._write('st')
                 a = self.device.readline().split()
