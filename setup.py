@@ -11,6 +11,7 @@ setup(name='aotf-config',
       py_modules=['gooch_housego', 'usbtmc'],
       scripts=['aotf-ui', 'aotf-config', 'aotf-freq-scan'],
       data_files=[
-              ('share/aotf-config', ['aotf-channel.glade', 'aotf-ui.glade'])
+              ('share/aotf-config', ['aotf-channel.glade', 'aotf-ui.glade']),
+              ('/etc/udev/rules.d', ['99-usbtmc.rules']),
       ],
      )

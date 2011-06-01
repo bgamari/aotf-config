@@ -1,0 +1,2 @@
+# Thorlabs PM100
+BUS=="usb", ACTION=="add", ATTR{idVendor}=="1313", ATTR{idProduct}=="8078", MODE="666"
