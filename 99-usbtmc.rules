@@ -3,4 +3,4 @@
 # with the device which the below rule matches
 #SUBSYSTEMS=="usb", ACTION=="add", ATTR{idVendor}=="1313", ATTR{idProduct}=="8078", MODE="0666"
 # HACK: Match the device nodes themselves
-SUBSYSTEMS=="usb", ACTION=="add", DEVNAME=="/dev/usbtmc*", MODE="0666"
+SUBSYSTEMS=="usb", ACTION=="add", DEVPATH=="/dev/usbtmc*", MODE="0666"
