@@ -92,8 +92,9 @@ if __name__ == '__main__':
         data = np.array(data, dtype=[('f', 'f8'), ('p', 'f8')])
 
         max_i = np.argmax(abs(data['p']))
-        print 'Maximum at %3.3f MHz' % data['f'][max_i]
-        synth.set_frequency(data[max_i]['f'])
+        max_f = data['f'][max_i]
+        print 'Set to maximum at %3.3f MHz' % max_f
+        synth.set_frequency(max_f)
 
         if args.output is not None:
                 args.output.write('# Time (seconds)\tPower (Watts)\n')
