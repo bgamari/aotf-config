@@ -89,8 +89,6 @@ if __name__ == '__main__':
                         val = float(test.read())
                         data.append((freq, val))
 
-        if args.output is not None:
-                args.output.close()
         data = np.array(data, dtype=[('f', 'f8'), ('p', 'f8')])
 
         max_i = np.argmax(abs(data['p']))
