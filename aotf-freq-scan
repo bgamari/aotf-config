@@ -10,7 +10,8 @@ recording the power from a Thorlabs PM100 power meter at every frequency
 presets = {           # (chan, min_f, max_f, wavelength)
         'green514':     (1, 69.1, 72.5, 514),
         'green520':     (1, 67.0, 69.1, 520),
-        'red':          (2, 51.5, 55.5, 647),
+        'red676':       (2, 50.0, 52.5, 676),
+        'red647':       (2, 52.5, 55.0, 647),
 }
 
 def plot(data):
