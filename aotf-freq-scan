@@ -82,7 +82,7 @@ if __name__ == '__main__':
         synth.set_mode('on')
         synth.set_amplitude(1023)
         synth.set_frequency(lower)
-        time.sleep(1e-2)
+        time.sleep(1e-1)
 
         data = []
         for freq in np.arange(lower, upper, args.step):
