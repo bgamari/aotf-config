@@ -12,6 +12,6 @@ setup(name='aotf-config',
       scripts=['aotf-ui', 'aotf-config', 'aotf-freq-scan'],
       data_files=[
               ('share/aotf-config', ['aotf-channel.glade', 'aotf-ui.glade']),
-              ('/etc/udev/rules.d', ['99-usbtmc.rules']),
+              ('/etc/udev/rules.d', ['thorlabs-pm100.rules']),
       ],
      )
