@@ -1,0 +1,10 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=AOTF Configuration
+Comment=Configure the Acuosto-Optical Tunable Filter
+Version=1.0
+Type=Application
+Terminal=false
+Exec=aotf-ui
+Icon=aotf-ui.svg
+Categories=Utility;Education;Science;Physics;

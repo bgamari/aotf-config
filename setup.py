@@ -13,5 +13,7 @@ setup(name='aotf-config',
       data_files=[
               ('share/aotf-config', ['aotf-channel.glade', 'aotf-ui.glade']),
               ('/etc/udev/rules.d', ['thorlabs-pm100.rules']),
+              ('share/icons', ['aotf-ui.svg']),
+              ('share/applications', ['aotf-ui.desktop']),
       ],
      )
