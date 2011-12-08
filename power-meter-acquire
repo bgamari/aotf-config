@@ -1,0 +1,14 @@
+#!/usr/bin/python
+
+from time import sleep, time
+from usbtmc import usbtmc
+
+test = usbtmc('/dev/usbtmc0')
+test.write('CONF:POW')
+        
+while True:
+        test.write('READ?')
+        val = float(test.read())
+        print time(), val
+        sleep(10e-3)
+
