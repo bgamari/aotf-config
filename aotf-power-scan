@@ -1,0 +1,46 @@
+#!/usr/bin/python
+
+from numpy import *
+import os
+from usbtmc import usbtmc
+
+if __name__ == '__main__':
+        import time
+        import argparse
+
+        parser = argparse.ArgumentParser()
+        parser.add_argument('-c', '--channel', required=True, help='channel to scan')
+        parser.add_argument('-p', '--power', help='desired power')
+        args = parser.parse_args()
+
+        orig_states = {}
+        for ch in range(8):
+                synth.select_channel(ch)
+                orig_states[ch] = synth.get_status().mode
+                synth.set_mode('off')
+
+        synth.select_channel(args.channel)
+        synth.set_mode('on')
+        
+        test = usbtmc('/dev/usbtmc0')
+        test.write('CONF:POW')
+
+        # Do scan
+        data = []
+        for amp in range(0, 1023):
+                synth.set_amplitude(amp)
+                time.sleep(1e-3)
+                for i in range(args.samples):
+                        test.write('READ?')
+                        power = float(test.read())
+                        data.append((amp, power))
+
+        data = array(data)
+        idx = (abs(data[:,1] - args.power)).argmin()
+        amp = data[idx,0]
+        synth.set_amplitude(amp)
+
+        for ch in range(8):
+                synth.select_channel(ch)
+                synth.set_mode(orig_states[ch])
+
