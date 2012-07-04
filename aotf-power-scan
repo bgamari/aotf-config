@@ -1,9 +1,12 @@
 #!/usr/bin/python
 
+import sys
 from numpy import *
 import os
 from usbtmc import usbtmc
 from gooch_housego import FreqSynth
+
+amplitudes = xrange(0, 1024)
 
 if __name__ == '__main__':
         import time
@@ -13,6 +16,8 @@ if __name__ == '__main__':
         parser.add_argument('-c', '--channel', required=True, type=int, help='channel to scan')
         parser.add_argument('-p', '--power', type=float, help='set desired power (microwatts)')
         parser.add_argument('-o', '--output', metavar='FILE', help='output plot to FILE')
+        parser.add_argument('-l', '--log', action='store_true', help='plot power on logarithmic scale')
+        parser.add_argument('-O', '--raw-output', metavar='FILE', help='output raw data to FILE')
         parser.add_argument('-S', '--samples', type=int, metavar='N', help='number of samples to take for each frequency', default=5)
         args = parser.parse_args()
 
@@ -31,7 +36,9 @@ if __name__ == '__main__':
 
         # Do scan
         data = []
-        for amp in range(0, 1023):
+        for amp in amplitudes:
+                sys.stderr.write('%4d / %4d\r' % (amp, 1023))
+                sys.stderr.flush()
                 synth.set_amplitude(amp)
                 time.sleep(1e-3)
                 for i in range(args.samples):
@@ -48,10 +55,14 @@ if __name__ == '__main__':
 
         if args.output is not None:
                 from matplotlib import pyplot as pl
-                pl.plot(range(0,1023), data, '+')
+                pl.plot(data[:,0], data[:,1], '+')
                 pl.xlabel('AOTF amplitude')
                 pl.ylabel('Power (uW)')
+                if args.log: pl.yscale('log')
                 pl.savefig(args.output)
+
+        if args.raw_output is not None:
+                np.savetxt(args.raw_output, data)
 
         for ch in range(8):
                 synth.select_channel(ch)
