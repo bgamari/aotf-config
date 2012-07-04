@@ -1,6 +1,9 @@
 #!/usr/bin/python
 
+import sys, time
+import numpy as np
 from usbtmc import usbtmc
+from gooch_housego import FreqSynth
 
 """
 Scan the AOTF drive frequency of the given channel through the given band,
@@ -31,9 +34,6 @@ def plot(data):
         pl.show()
 
 if __name__ == '__main__':
-        import sys, time
-        import numpy as np
-        from gooch_housego import FreqSynth
         import argparse
 
         parser = argparse.ArgumentParser()
