@@ -3,17 +3,20 @@
 from numpy import *
 import os
 from usbtmc import usbtmc
+from gooch_housego import FreqSynth
 
 if __name__ == '__main__':
         import time
         import argparse
 
         parser = argparse.ArgumentParser()
-        parser.add_argument('-c', '--channel', required=True, help='channel to scan')
+        parser.add_argument('-c', '--channel', required=True, type=int, help='channel to scan')
         parser.add_argument('-p', '--power', type=float, help='set desired power (microwatts)')
+        parser.add_argument('-S', '--samples', type=int, metavar='N', help='number of samples to take for each frequency', default=5)
         args = parser.parse_args()
 
         orig_states = {}
+        synth = FreqSynth.probe()
         for ch in range(8):
                 synth.select_channel(ch)
                 orig_states[ch] = synth.get_status().mode
