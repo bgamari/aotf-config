@@ -84,6 +84,8 @@ if __name__ == '__main__':
 
         data = []
         for freq in np.arange(lower, upper, args.step):
+                sys.stderr.write('%4d / %4d\r' % (amp, 1023))
+                sys.stderr.flush()
                 synth.set_frequency(freq)
                 time.sleep(args.wait)
                 for i in range(args.samples):
