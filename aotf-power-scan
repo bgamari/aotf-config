@@ -62,7 +62,7 @@ if __name__ == '__main__':
                 pl.savefig(args.output)
 
         if args.raw_output is not None:
-                np.savetxt(args.raw_output, data)
+                savetxt(args.raw_output, data)
 
         for ch in range(8):
                 synth.select_channel(ch)
