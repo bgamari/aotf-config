@@ -9,6 +9,6 @@ test.write('CONF:POW')
 while True:
         test.write('READ?')
         val = float(test.read())
-        print time(), val
+        print time(), '\t', val
         sleep(10e-3)
 
