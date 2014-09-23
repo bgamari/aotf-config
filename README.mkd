@@ -1,4 +1,4 @@
-# aotf-config
+# aotf-config — Tools for Gooch & Housego AOTFs
 
 This package contains a set of Python tools for working with the Gooch
 & Housego R6404 frequency synthesizer/AOTF driver. These can be
