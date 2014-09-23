@@ -9,31 +9,34 @@ channels = range(1,8+1)
 def show_status(aotf):
     s = aotf.get_status()
     print 'channel %d: %3s, freq=%6.3f MHz, amp=%4d, phase=%4d' % \
-        (s.chan, s.mode, s.freq, s.amp, s.phase)
+            (s.chan, s.mode, s.freq, s.amp, s.phase)
 
 def status_handler(aotf, args):
-    for ch in channels:
+    chs = channels
+    if args.channel is not None:
+        chs = [args.channel]
+
+    for ch in chs:
         aotf.select_channel(ch)
         show_status(aotf)
 
 def set_handler(aotf, args):
-        assert args.channel in channels
-        aotf.select_channel(args.channel)
-        if args.off:
-                aotf.set_mode('off')
-        elif args.on:
-                aotf.set_mode('on')
-        elif args.mod:
-                aotf.set_mode('mod')
+    aotf.select_channel(args.channel)
+    if args.off:
+        aotf.set_mode('off')
+    elif args.on:
+        aotf.set_mode('on')
+    elif args.mod:
+        aotf.set_mode('mod')
 
-        if args.frequency:
-                aotf.set_frequency(args.frequency)
+    if args.frequency:
+        aotf.set_frequency(args.frequency)
         if args.phase:
-                aotf.set_phase(args.phase)
-        if args.amp:
+            aotf.set_phase(args.phase)
+            if args.amp:
                 aotf.set_amplitude(args.amp)
 
-        show_status(aotf)
+    show_status(aotf)
 
 parser = argparse.ArgumentParser(
         description='Configure Gooch and Housego AOTF driver')
@@ -42,10 +45,12 @@ parser.add_argument('-d', '--device', type=int, help='Serial device',
 subparsers = parser.add_subparsers()
 
 status = subparsers.add_parser('status', help='Print driver status')
+status.add_argument('-c', '--channel', type=int, help='Channel number (1-8)')
 status.set_defaults(func=status_handler)
 
 set_ = subparsers.add_parser('set', help='Configure channel')
-set_.add_argument('channel', type=int, help='Channel number (1-8)')
+set_.add_argument('-c', '--channel', type=int, required=True,
+                  help='Channel number (1-8)')
 set_.add_argument('--on', action='store_true', help='Turn on channel')
 set_.add_argument('--off', action='store_true', help='Turn off channel')
 set_.add_argument('--mod', action='store_true', help='Put channel in modulated mode')
@@ -56,11 +61,15 @@ set_.set_defaults(func=set_handler)
 
 args = parser.parse_args()
 if args.device is None:
-        aotf = FreqSynth.probe()
+    aotf = FreqSynth.probe()
 else:
-        aotf = FreqSynth.open(args.device)
+    aotf = FreqSynth.open(args.device)
+
+if args.channel is not None and \
+   args.channel not in channels:
+    raise RuntimeError("Invalid channel number. Valid channels are 1 through 8")
 
 if args.func is None:
-        status_handler(aotf, args)
+    status_handler(aotf, args)
 else:
-        args.func(aotf, args)
+    args.func(aotf, args)

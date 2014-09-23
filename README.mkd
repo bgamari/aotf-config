@@ -37,12 +37,12 @@ The `status` subcommand shows the current configuration of the device,
 The `set` subcommand allows parameters to be modified. For instance,
 we can set the phase, amplitude and frequency of channel `7`,
 
-    $ aotf-config set 7 --phase=100 --amp=80 --freq=75.240
+    $ aotf-config set --channel=7 --phase=100 --amp=80 --freq=75.240
     channel 7: off, freq=75.240 MHz, amp=  80, phase= 100
 
 and then enable channel 1,
 
-    $ aotf-config set 1 --on
+    $ aotf-config set -c1 --on
     channel 1:  on, freq=66.927 MHz, amp=1023, phase=   0
 
 
