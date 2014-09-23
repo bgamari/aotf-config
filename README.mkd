@@ -2,11 +2,30 @@
 
 This package contains a set of Python tools for working with the Gooch
 & Housego R6404 frequency synthesizer/AOTF driver. These can be
-installed with `setup.py`. In addition to the `gooch_housego` Python
-module which provides programmatic access to the driver, the tools
-include,
+installed with `setup.py`. The package includes,
 
+ * The `gooch_housego` Python module which provides programmatic
+   access to the driver
  * `aotf-ui`: A small Gtk+ interface for configuring the driver's
    parameters.
  * `aotf-config`: A command-line utility for configuring the driver's
    parameters
+ * A set of `udev` rules (`99-gooch-housego-aotf.rules`) to give the
+   AOTF driver the `/dev/ttyUSB.aotf` name
+
+
+## Thorlabs PM-100
+
+In addition to the AOTF functionality, the package includes some
+useful utilities for use with the Thorlabs PM-100 power meter. These
+include,
+
+ * `power-time-series.py`: A utility which spits out a time series of
+   power measurements from the PM-100
+ * `aotf-freq-scan`: A utility which measures power while sweeping the
+   frequency of the AOTF. Useful for finding laser lines.
+ * `aotf-power-scan`: A utility which measures power while sweeping the
+   excitation amplitude of the AOTF. Useful for characterizing
+   throughput.
+ * A set of `udev` rules to allow unprivileged users to access the
+   PM-100 (`thorlabs-pm100.rules`)
