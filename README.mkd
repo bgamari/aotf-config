@@ -13,6 +13,13 @@ installed with `setup.py`. The package includes,
  * A set of `udev` rules (`99-gooch-housego-aotf.rules`) to give the
    AOTF driver the `/dev/ttyUSB.aotf` name
 
+## `aotf-ui`
+
+The `aotf-ui` utility exposes the basic functionality of the
+synthesizer.
+
+![The `aotf-ui` interface.](doc/aotf-ui.png)
+
 ## `aotf-config`
 
 The `status` subcommand shows the current configuration of the device,
