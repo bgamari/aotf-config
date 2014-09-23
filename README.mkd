@@ -34,10 +34,16 @@ The `status` subcommand shows the current configuration of the device,
     channel 7: off, freq=75.240 MHz, amp=  10, phase=   0
     channel 8: off, freq=78.190 MHz, amp=  13, phase=   0
 
-The `set` subcommand allows parameters to be modified,
+The `set` subcommand allows parameters to be modified. For instance,
+we can set the phase, amplitude and frequency of channel `7`,
 
     $ aotf-config set 7 --phase=100 --amp=80 --freq=75.240
     channel 7: off, freq=75.240 MHz, amp=  80, phase= 100
+
+and then enable channel 1,
+
+    $ aotf-config set 1 --on
+    channel 1:  on, freq=66.927 MHz, amp=1023, phase=   0
 
 
 ## Thorlabs PM-100
