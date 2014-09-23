@@ -7,7 +7,7 @@ import logging
 
 resource_prefix=os.path.join(sys.prefix, 'local', 'share', 'aotf-config')
 
-logging.basicConfig(level=logging.DEBUG)
+#logging.basicConfig(level=logging.DEBUG)
 
 class AotfChannel(object):
         def __init__(self, n, device):
