@@ -6,12 +6,15 @@ import argparse
 
 channels = range(1,8+1)
 
+def show_status(aotf):
+    s = aotf.get_status()
+    print 'channel %d: %3s, freq=%6.3f MHz, amp=%4d, phase=%4d' % \
+        (s.chan, s.mode, s.freq, s.amp, s.phase)
+
 def status_handler(aotf, args):
     for ch in channels:
         aotf.select_channel(ch)
-        s = aotf.get_status()
-        print 'channel %d: %3s, freq=%6.3f MHz, amp=%4d, phase=%4d' % \
-            (ch, s.mode, s.freq, s.amp, s.phase)
+        show_status(aotf)
 
 def set_handler(aotf, args):
         assert args.channel in channels
@@ -24,11 +27,13 @@ def set_handler(aotf, args):
                 aotf.set_mode('mod')
 
         if args.frequency:
-                aotf.set_freq(args.frequency)
+                aotf.set_frequency(args.frequency)
         if args.phase:
                 aotf.set_phase(args.phase)
         if args.amp:
-                aotf.set_phase(args.amp)
+                aotf.set_amplitude(args.amp)
+
+        show_status(aotf)
 
 parser = argparse.ArgumentParser(
         description='Configure Gooch and Housego AOTF driver')
