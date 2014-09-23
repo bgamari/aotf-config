@@ -2,15 +2,60 @@
 
 import sys
 from gooch_housego import FreqSynth
+import argparse
 
-f = FreqSynth.probe()
 channels = range(1,8+1)
-on_channels = map(int, sys.argv[1:])
-for ch in channels:
-        f.select_channel(ch)
-	if ch in on_channels:
-		f.set_mode('on')
-	else:
-		f.set_mode('off')
-        print 'Channel %d: ' % ch, f.get_status()
 
+def status_handler(aotf, args):
+    for ch in channels:
+        aotf.select_channel(ch)
+        s = aotf.get_status()
+        print 'channel %d: %3s, freq=%6.3f MHz, amp=%4d, phase=%4d' % \
+            (ch, s.mode, s.freq, s.amp, s.phase)
+
+def set_handler(aotf, args):
+        assert args.channel in channels
+        aotf.select_channel(args.channel)
+        if args.off:
+                aotf.set_mode('off')
+        elif args.on:
+                aotf.set_mode('on')
+        elif args.mod:
+                aotf.set_mode('mod')
+
+        if args.frequency:
+                aotf.set_freq(args.frequency)
+        if args.phase:
+                aotf.set_phase(args.phase)
+        if args.amp:
+                aotf.set_phase(args.amp)
+
+parser = argparse.ArgumentParser(
+        description='Configure Gooch and Housego AOTF driver')
+parser.add_argument('-d', '--device', type=int, help='Serial device',
+                    default=None)
+subparsers = parser.add_subparsers()
+
+status = subparsers.add_parser('status', help='Print driver status')
+status.set_defaults(func=status_handler)
+
+set_ = subparsers.add_parser('set', help='Configure channel')
+set_.add_argument('channel', type=int, help='Channel number (1-8)')
+set_.add_argument('--on', action='store_true', help='Turn on channel')
+set_.add_argument('--off', action='store_true', help='Turn off channel')
+set_.add_argument('--mod', action='store_true', help='Put channel in modulated mode')
+set_.add_argument('-f', '--frequency', type=float, help='Set frequency (MHz)')
+set_.add_argument('-p', '--phase', type=int, help='Set phase')
+set_.add_argument('-a', '--amp', type=int, help='Set amplitude (0-1023)')
+set_.set_defaults(func=set_handler)
+
+args = parser.parse_args()
+if args.device is None:
+        aotf = FreqSynth.probe()
+else:
+        aotf = FreqSynth.open(args.device)
+
+if args.func is None:
+        status_handler(aotf, args)
+else:
+        args.func(aotf, args)
