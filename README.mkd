@@ -13,6 +13,25 @@ installed with `setup.py`. The package includes,
  * A set of `udev` rules (`99-gooch-housego-aotf.rules`) to give the
    AOTF driver the `/dev/ttyUSB.aotf` name
 
+## `aotf-config`
+
+The `status` subcommand shows the current configuration of the device,
+
+    $ aotf-config status
+    channel 1: off, freq=66.927 MHz, amp=1023, phase=   0
+    channel 2: off, freq=69.850 MHz, amp= 190, phase=   0
+    channel 3: off, freq=69.435 MHz, amp=1023, phase=   0
+    channel 4: off, freq=61.221 MHz, amp=  28, phase=   0
+    channel 5: off, freq=49.423 MHz, amp=1023, phase=   0
+    channel 6: off, freq=66.700 MHz, amp=  50, phase=   0
+    channel 7: off, freq=75.240 MHz, amp=  10, phase=   0
+    channel 8: off, freq=78.190 MHz, amp=  13, phase=   0
+
+The `set` subcommand allows parameters to be modified,
+
+    $ aotf-config set 7 --phase=100 --amp=80 --freq=75.240
+    channel 7: off, freq=75.240 MHz, amp=  80, phase= 100
+
 
 ## Thorlabs PM-100
 
