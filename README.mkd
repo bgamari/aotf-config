@@ -1,0 +1,12 @@
+# aotf-config
+
+This package contains a set of Python tools for working with the Gooch
+& Housego R6404 frequency synthesizer/AOTF driver. These can be
+installed with `setup.py`. In addition to the `gooch_housego` Python
+module which provides programmatic access to the driver, the tools
+include,
+
+ * `aotf-ui`: A small Gtk+ interface for configuring the driver's
+   parameters.
+ * `aotf-config`: A command-line utility for configuring the driver's
+   parameters
