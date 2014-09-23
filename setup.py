@@ -3,7 +3,7 @@
 from distutils.core import setup
 
 setup(name='aotf-config',
-      #version='1.0',
+      version='1.0',
       description="Python interface to Gooch & Housego frequency synthesizer",
       author="Ben Gamari",
       author_email="bgamari@physics.umass.edu",
