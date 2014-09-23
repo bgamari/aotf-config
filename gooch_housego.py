@@ -10,7 +10,7 @@ class FreqSynth(object):
         @classmethod
         def probe(cls):
                 f = None
-                for d in glob('/dev/ttyUSB*'):
+                for d in ['/dev/ttyUSB.aotf'] + glob('/dev/ttyUSB*'):
                         try:
                                 logging.debug("Looking for frequency synthesizer on %s" % d)
                                 f = FreqSynth(d)
