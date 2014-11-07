@@ -40,7 +40,7 @@ def set_handler(aotf, args):
 
 parser = argparse.ArgumentParser(
         description='Configure Gooch and Housego AOTF driver')
-parser.add_argument('-d', '--device', type=int, help='Serial device',
+parser.add_argument('-d', '--device', type=str, help='Serial device',
                     default=None)
 subparsers = parser.add_subparsers()
 
