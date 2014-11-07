@@ -2,7 +2,7 @@
 
 import sys, time
 import numpy as np
-from usbtmc import usbtmc
+import usbtmc
 from gooch_housego import FreqSynth
 
 """
@@ -65,7 +65,15 @@ if __name__ == '__main__':
         if channel is None or lower is None or upper is None:
                 parser.error("Need at least channel, lower and upper frequencies")
 
-        test = usbtmc('/dev/usbtmc0')
+        device = None
+        for dev,name in usbtmc.probe().items():
+                if name.startswith('Thorlabs,PM100'):
+                        device = dev
+                        break
+        if device is None:
+                parser.error("Couldn't find device")
+
+        test = usbtmc.usbtmc(device)
         test.write('CONF:POW')
         
         if wavelength is not None:
