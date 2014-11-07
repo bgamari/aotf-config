@@ -1,8 +1,8 @@
-import usbtmc
+from usbtmc import usbtmc
 
 class ThorlabsPM100(object):
     def __init__(self, device):
-        self.device = usbtmc.usbtmc(device)
+        self.device = usbtmc(device)
         self.device.write('CONF:POW')
         
     @staticmethod
