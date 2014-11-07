@@ -63,7 +63,7 @@ args = parser.parse_args()
 if args.device is None:
     aotf = FreqSynth.probe()
 else:
-    aotf = FreqSynth.open(args.device)
+    aotf = FreqSynth(args.device)
 
 if args.channel is not None and \
    args.channel not in channels:
