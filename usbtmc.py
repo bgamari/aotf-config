@@ -2,6 +2,17 @@
 
 import os
 
+def probe():
+        from glob import glob
+        devices = {}
+        for dev in glob('/dev/usbtmc*'):
+                try:
+                        d = usbtmc(dev)
+                        devices[dev] = d.get_name()
+                except Exception as e:
+                        print 'Failed to probe device %s: %s' % (dev, e)
+        return devices
+
 class usbtmc(object):
         """Simple implementation of a USBTMC device driver, in the style of visa.h"""
 
@@ -21,4 +32,3 @@ class usbtmc(object):
 
         def send_reset(self):
                 self.write("*RST")
-
