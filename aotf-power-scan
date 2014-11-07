@@ -3,7 +3,7 @@
 import sys
 from numpy import *
 import os
-from usbtmc import usbtmc
+from thorlabs_pm100 import ThorlabsPM100
 from gooch_housego import FreqSynth
 
 amplitudes = xrange(0, 1024)
@@ -31,8 +31,7 @@ if __name__ == '__main__':
         synth.select_channel(args.channel)
         synth.set_mode('on')
         
-        test = usbtmc('/dev/usbtmc0')
-        test.write('CONF:POW')
+        meter = ThorlabsPM100.find()
 
         # Do scan
         data = []
@@ -42,8 +41,7 @@ if __name__ == '__main__':
                 synth.set_amplitude(amp)
                 time.sleep(1e-3)
                 for i in range(args.samples):
-                        test.write('READ?')
-                        power = float(test.read())
+                        power = meter.read()
                         data.append((amp, power))
 
         data = array(data)

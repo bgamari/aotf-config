@@ -2,7 +2,7 @@
 
 import sys, time
 import numpy as np
-import usbtmc
+from thorlabs_pm100 import ThorlabsPM100
 from gooch_housego import FreqSynth
 
 """
@@ -65,20 +65,9 @@ if __name__ == '__main__':
         if channel is None or lower is None or upper is None:
                 parser.error("Need at least channel, lower and upper frequencies")
 
-        device = None
-        for dev,name in usbtmc.probe().items():
-                if name.startswith('Thorlabs,PM100'):
-                        device = dev
-                        break
-        if device is None:
-                parser.error("Couldn't find device")
-
-        test = usbtmc.usbtmc(device)
-        test.write('CONF:POW')
-        
+        meter = ThorlabsPM100.find()
         if wavelength is not None:
-                test.write('SENSE:CORR:WAVELENGTH MIN %f' % (wavelength-5))
-                test.write('SENSE:CORR:WAVELENGTH MAX %f' % (wavelength+5))
+                meter.set_wavelength(wavelength-5, wavelength+5)
 
         synth = FreqSynth.probe()
         for ch in range(8):
@@ -97,8 +86,7 @@ if __name__ == '__main__':
                 synth.set_frequency(freq)
                 time.sleep(args.wait)
                 for i in range(args.samples):
-                        test.write('READ?')
-                        val = float(test.read())
+                        val = meter.read()
                         data.append((freq, val))
 
         data = np.array(data, dtype=[('f', 'f8'), ('p', 'f8')])
