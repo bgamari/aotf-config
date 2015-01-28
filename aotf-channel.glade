@@ -113,7 +113,7 @@
     <property name="upper">150</property>
     <property name="step_increment">0.10000000000000001</property>
     <property name="page_increment">10</property>
-    <property name="page_size">10</property>
+    <property name="page_size">0</property>
     <signal name="value_changed" handler="frequency_value_changed_cb"/>
   </object>
 </interface>
