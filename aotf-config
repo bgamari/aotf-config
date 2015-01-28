@@ -10,7 +10,7 @@ def show_status(aotf):
             (s.chan, s.mode, s.freq, s.amp, s.phase)
 
 def status_handler(aotf, args):
-    chs = channels
+    chs = aotf.valid_channels
     if args.channel is not None:
         chs = [args.channel]
 
