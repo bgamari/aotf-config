@@ -26,6 +26,7 @@ class FreqSynth(object):
                         raise RuntimeError("Failed to find device")
 
         def __init__(self, device='/dev/ttyUSB0'):
+                self.valid_channels = range(1, 8+1)
                 self.device = serial.Serial(device, baudrate=9600, timeout=1)
                 # Help auto-baudrate detection
                 self.device.write('\n\n\n')
@@ -36,6 +37,9 @@ class FreqSynth(object):
                 self.device.write(cmd + '\r')
 
         def select_channel(self, channel):
+                """ Select the output channel to manipulate (1-8) """
+                if channel not in self.valid_channels:
+                        raise ValueError("Invalid channel %d" % channel)
                 self._write('ch%d' % channel)
 
         def set_frequency(self, freq):

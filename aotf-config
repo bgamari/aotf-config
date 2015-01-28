@@ -4,8 +4,6 @@ import sys
 from gooch_housego import FreqSynth
 import argparse
 
-channels = range(1,8+1)
-
 def show_status(aotf):
     s = aotf.get_status()
     print 'channel %d: %3s, freq=%6.3f MHz, amp=%4d, phase=%4d' % \
@@ -66,7 +64,7 @@ else:
     aotf = FreqSynth(args.device)
 
 if args.channel is not None and \
-   args.channel not in channels:
+   args.channel not in aotf.valid_channels:
     raise RuntimeError("Invalid channel number. Valid channels are 1 through 8")
 
 if args.func is None:
