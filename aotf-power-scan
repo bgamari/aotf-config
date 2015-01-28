@@ -23,7 +23,7 @@ if __name__ == '__main__':
 
         orig_states = {}
         synth = FreqSynth.probe()
-        for ch in range(8):
+        for ch in synth.valid_channels:
                 synth.select_channel(ch)
                 orig_states[ch] = synth.get_status().mode
                 synth.set_mode('off')
@@ -62,7 +62,7 @@ if __name__ == '__main__':
         if args.raw_output is not None:
                 savetxt(args.raw_output, data)
 
-        for ch in range(8):
+        for ch in synth.valid_channels:
                 synth.select_channel(ch)
                 synth.set_mode(orig_states[ch])
 

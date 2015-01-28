@@ -70,7 +70,7 @@ if __name__ == '__main__':
                 meter.set_wavelength(wavelength-5, wavelength+5)
 
         synth = FreqSynth.probe()
-        for ch in range(8):
+        for ch in synth.valid_channels:
                 synth.select_channel(ch)
                 synth.set_mode('off')
         synth.select_channel(channel)
